@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @jade-davis
-- 👀 I’m interested in UX/UI design and front end development! I'm new to this world but eager to learn, grow and add to this industry!
-- 🌱 I’m currently learning more in depth data stuctures and new programming languages including Java and Scheme.
+- 👀 I’m interested in game development and front end design!
+- 🌱 I’m currently learning operation systems and hands on video game development.
 - 📫 How to reach me: jadealexie12@gmail.com
 - Let me know if you can't see projects!
 <!---
