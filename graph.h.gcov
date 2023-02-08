@@ -1,0 +1,384 @@
+        -:    0:Source:graph.h
+        -:    0:Graph:graph_tests.gcno
+        -:    0:Data:graph_tests.gcda
+        -:    0:Runs:1
+        -:    1:#ifndef GRAPH_H
+        -:    2:#define GRAPH_H
+        -:    3:
+        -:    4:#include <list>
+        -:    5:#include <unordered_set>
+        -:    6:#include <unordered_map>
+        -:    7:#include <cmath>
+        -:    8:#include <iostream>
+        -:    9:#include <queue>
+        -:   10:#include <vector>
+        -:   11:
+        -:   12:struct edge {
+        -:   13:    size_t dest_vertex;
+        -:   14:    double weight;
+        -:   15:};
+        -:   16:
+        -:   17:struct vertex {
+        -:   18:    size_t value;
+        -:   19:    std::list<edge> edges;
+        -:   20:    double distance;
+        -:   21:    size_t prev;
+       21:   22:    vertex() : value(0), edges(), distance(-1), prev(0) {}
+        -:   23:};
+        -:   24:
+        -:   25:class Graph {
+        -:   26:private:
+        -:   27:
+        -:   28:    std::vector<vertex> vertices;
+        -:   29:
+        -:   30:public:
+        -:   31:    // Task 1
+        -:   32:    Graph();
+        -:   33:
+        -:   34:    Graph(const Graph &other);
+        -:   35:
+        -:   36:    Graph &operator=(const Graph &other);
+        -:   37:
+        -:   38:    ~Graph();
+        -:   39:
+        -:   40:    size_t vertex_count() const;
+        -:   41:
+        -:   42:    size_t edge_count() const;
+        -:   43:
+        -:   44:    bool contains_vertex(size_t id) const;
+        -:   45:
+        -:   46:    bool contains_edge(size_t src, size_t dest) const;
+        -:   47:
+        -:   48:    double cost(size_t src, size_t dest) const;
+        -:   49:
+        -:   50:    bool add_vertex(size_t id);
+        -:   51:
+        -:   52:    bool add_edge(size_t src, size_t dest, double weight = 1);
+        -:   53:
+        -:   54:    bool remove_vertex(size_t id);
+        -:   55:
+        -:   56:    bool remove_edge(size_t src, size_t dest);
+        -:   57:
+        -:   58:    size_t min_distance( std::list<size_t> q);
+        -:   59:
+        -:   60:    size_t get_previous( size_t dest_id) const;
+        -:   61:
+        -:   62:    // Task 2
+        -:   63://    void prim(size_t source_id);
+        -:   64://
+        -:   65://    bool is_path(size_t id) const;
+        -:   66://
+        -:   67://    void prsize_t_path(size_t dest_id, std::ostream &os = std::cout) const;
+        -:   68:
+        -:   69:    // Task 3
+        -:   70:    void dijkstra(size_t source_id);
+        -:   71:
+        -:   72:   double distance(size_t id) const;
+        -:   73:
+        -:   74:    void print_shortest_path(size_t dest_id, std::ostream &os = std::cout) const;
+        -:   75:};
+        -:   76:
+        2:   77:Graph::Graph() : vertices() {
+        2:   78:}
+        -:   79:
+        1:   80:Graph::Graph(const Graph &other) : vertices() {
+        8:   81:    for (size_t itr_vtx = 0; itr_vtx < other.vertex_count(); itr_vtx++) {
+        7:   82:        add_vertex(other.vertices[itr_vtx].value);
+       19:   83:        for (edge itr_edge: other.vertices[itr_vtx].edges) {
+       12:   84:            add_edge(vertices[itr_vtx].value, itr_edge.dest_vertex, itr_edge.weight);
+        -:   85:        }
+        -:   86:    }
+        1:   87:}
+        -:   88:
+        1:   89:Graph &Graph::operator=(const Graph &other) {
+        8:   90:    for (size_t itr_vtx = 0; itr_vtx < other.vertex_count(); itr_vtx++) {
+        7:   91:        add_vertex(other.vertices[itr_vtx].value);
+       19:   92:        for (edge itr_edge: other.vertices[itr_vtx].edges) {
+       12:   93:            add_edge(vertices[itr_vtx].value, itr_edge.dest_vertex, itr_edge.weight);
+        -:   94:        }
+        -:   95:    }
+        1:   96:    return *this;
+        -:   97:}
+        -:   98:
+        3:   99:Graph::~Graph() {
+        -:  100:    // Nothing to implement here
+        3:  101:}
+        -:  102:
+      501:  103:size_t Graph::vertex_count() const {
+      501:  104:    return vertices.size();
+        -:  105:}
+        -:  106:
+        5:  107:size_t Graph::edge_count() const {
+        5:  108:    size_t count = 0;
+        -:  109:    size_t itr;
+       38:  110:    for (itr = 0; itr < vertices.size(); ++itr) {
+       33:  111:        count += vertices[itr].edges.size();
+        -:  112:    }
+        5:  113:    return count;
+        -:  114:}
+        -:  115:
+       32:  116:bool Graph::contains_vertex(size_t id) const {
+        -:  117:    size_t itr;
+      131:  118:    for (itr = 0; itr < vertices.size(); itr++) {
+      129:  119:        if (vertices[itr].value == id) {
+       30:  120:            return true;
+        -:  121:        }
+        -:  122:    }
+        2:  123:    return false;
+        -:  124:}
+        -:  125:
+        3:  126:bool Graph::contains_edge(size_t src, size_t dest) const {
+        3:  127:    size_t itr_vertex = 0;
+       20:  128:    for (itr_vertex = 0; itr_vertex < vertices.size(); itr_vertex++) {
+       18:  129:        if (vertices[itr_vertex].value == src) {
+        7:  130:            for (edge itr_edge: vertices[itr_vertex].edges) {
+        5:  131:                if (itr_edge.dest_vertex == dest) {
+        1:  132:                    return true;
+        -:  133:                }
+        -:  134:            }
+        -:  135:        }
+        -:  136:    }
+        2:  137:    return false;
+        -:  138:}
+        -:  139:
+        1:  140:double Graph::cost(size_t src, size_t dest) const {
+        1:  141:    size_t itr_vertex = 0;
+        4:  142:    for (itr_vertex = 0; itr_vertex < vertices.size(); itr_vertex++) {
+        4:  143:        if (vertices[itr_vertex].value == src) {
+       1*:  144:            for (edge itr_edge: vertices[itr_vertex].edges) {
+        1:  145:                if (itr_edge.dest_vertex == dest) {
+        1:  146:                    return itr_edge.weight;
+        -:  147:                }
+        -:  148:            }
+        -:  149:        }
+        -:  150:    }
+    #####:  151:    return -1;
+        -:  152:}
+        -:  153:
+       21:  154:bool Graph::add_vertex(size_t id) {
+        -:  155:    size_t itr;
+       84:  156:    for (itr = 0; itr < vertices.size(); ++itr) {
+       63:  157:        if (vertices[itr].value == id) {
+    #####:  158:            return false;
+        -:  159:        }
+        -:  160:    }
+       21:  161:    vertex new_vertex;
+       21:  162:    new_vertex.value = id;
+       21:  163:    vertices.push_back(new_vertex);
+       21:  164:    return true;
+        -:  165:}
+        -:  166:
+       38:  167:bool Graph::add_edge(size_t src, size_t dest, double weight) {
+       38:  168:    std::list<edge>::iterator it;
+       38:  169:    size_t itr_vertex = 0;
+      132:  170:    for (itr_vertex = 0; itr_vertex < vertices.size(); itr_vertex++) {
+      131:  171:        if (vertices[itr_vertex].value == src) {
+       37:  172:            it = vertices[itr_vertex].edges.begin();
+        -:  173:            size_t itr_edge;
+       58:  174:            for (itr_edge = 0; itr_edge < vertices[itr_vertex].edges.size(); itr_edge++) {
+       22:  175:                if (it->dest_vertex == dest) {
+        1:  176:                    return false;
+        -:  177:                }
+       21:  178:                std::advance(it, 1);
+        -:  179:            }
+        -:  180:            edge new_edge;
+       36:  181:            new_edge.dest_vertex = dest;
+       36:  182:            new_edge.weight = weight;
+       36:  183:            vertices[itr_vertex].edges.push_back(new_edge);
+       36:  184:            return true;
+        -:  185:        }
+        -:  186:    }
+        1:  187:    return false;
+        -:  188:}
+        -:  189:
+        2:  190:bool Graph::remove_vertex(size_t id) {
+        2:  191:    bool ret_val = false;
+        2:  192:    std::vector<vertex>::iterator it_vtx;
+        2:  193:    std::list<edge>::iterator it_edg;
+        2:  194:    it_vtx = vertices.begin();
+        -:  195:    size_t itr_vertex;
+       14:  196:    for (itr_vertex = 0; itr_vertex < vertices.size(); itr_vertex++) {
+       12:  197:        it_edg = vertices[itr_vertex].edges.begin();
+        -:  198:        size_t itr_edge;
+       29:  199:        for (itr_edge = 0; itr_edge < vertices[itr_vertex].edges.size(); itr_edge++) {
+       18:  200:            if (it_edg->dest_vertex == id) {
+        1:  201:                vertices[itr_vertex].edges.erase(it_edg);
+        1:  202:                break;
+        -:  203:            }
+       17:  204:            std::advance(it_edg, 1);
+        -:  205:        }
+       12:  206:        if (vertices[itr_vertex].value == id) {
+        1:  207:            vertices.erase(it_vtx);
+        1:  208:            ret_val = true;
+        -:  209:        }
+       12:  210:        std::advance(it_vtx, 1);
+        -:  211:    }
+        2:  212:    return ret_val;
+        -:  213:}
+        -:  214:
+        2:  215:bool Graph::remove_edge(size_t src, size_t dest) {
+        2:  216:    std::list<edge>::iterator it;
+        2:  217:    size_t itr_vertex = 0;
+       11:  218:    for (itr_vertex = 0; itr_vertex < vertices.size(); itr_vertex++) {
+       10:  219:        if (vertices[itr_vertex].value == src) {
+        2:  220:            it = vertices[itr_vertex].edges.begin();
+        -:  221:            size_t itr_edge;
+        3:  222:            for (itr_edge = 0; itr_edge < vertices[itr_vertex].edges.size(); itr_edge++) {
+        2:  223:                if (it->dest_vertex == dest) {
+        1:  224:                    vertices[itr_vertex].edges.erase(it);
+        1:  225:                    return true;
+        -:  226:                }
+        1:  227:                std::advance(it, 1);
+        -:  228:            }
+        -:  229:        }
+        -:  230:    }
+        1:  231:    return false;
+        -:  232:}
+        -:  233:
+        2:  234:void Graph::dijkstra(size_t source_id){
+        4:  235:    std::list<size_t> Q;
+        2:  236:    size_t v = 0;
+        2:  237:    size_t newdist = 0;
+        2:  238:    size_t tempIndex = -1;
+        -:  239:    
+        -:  240:    //initalize source distance & prev
+        2:  241:    if(contains_vertex(source_id)){
+        -:  242:        size_t itr;
+       16:  243:        for (itr = 0; itr < vertex_count(); itr++) {
+       14:  244:            if (vertices[itr].value == source_id) {
+        2:  245:               vertices[itr].distance = 0;
+        2:  246:                vertices[itr].prev = -1;
+        -:  247:            }
+        -:  248:        }
+        -:  249:    }
+        -:  250:    
+       16:  251:    for(size_t i = 0; i < vertex_count(); i++){ //set all distances (except source_id) to INFINITY
+       14:  252:        if(!(vertices[i].value == source_id)){
+       12:  253:            vertices[i].distance = std::numeric_limits<size_t>::max();
+        -:  254:        }
+       14:  255:        Q.push_back(vertices[i].value); // add to queue
+        -:  256:       
+        -:  257:    } 
+        -:  258:    
+       16:  259:    while(!Q.empty()){
+       14:  260:         v = min_distance(Q); // get shortest distance
+       14:  261:        Q.remove(vertices[v].value); //remove that from queue
+        -:  262:    
+       38:  263:        for(edge temp: vertices[v].edges){ //for each edge get the distance
+       24:  264:            newdist = vertices[v].distance + temp.weight;
+      102:  265:            for(size_t i = 0; i < vertices.size(); i++ ){
+      102:  266:                if(vertices[i].value == temp.dest_vertex){
+       24:  267:                    tempIndex = i;
+       24:  268:                    break;
+        -:  269:                }
+        -:  270:            }
+       24:  271:            if(newdist < vertices[tempIndex].distance){ //if new distance is shorter, make disatnce
+       17:  272:                vertices[tempIndex].distance = newdist;
+       17:  273:                vertices[tempIndex].prev = vertices[v].value;
+        -:  274:            }
+        -:  275:    
+        -:  276:        }
+        -:  277:
+        -:  278:    }
+        -:  279:
+        -:  280:    
+        2:  281:}
+        -:  282:
+       16:  283: void Graph::print_shortest_path(size_t dest_id, std::ostream &os) const{
+        -:  284:    
+       16:  285:    size_t prev = 0;
+       16:  286:    size_t noprev = -1;
+       16:  287:    std::list<size_t> previousQ;
+       16:  288:    size_t temp = dest_id;
+        -:  289:
+       16:  290:    if(!contains_vertex(dest_id)){ // if vertex does not exist
+        2:  291:        os << "<no path>\n";
+        2:  292:        return;
+        -:  293:    }
+      112:  294:    for(size_t i = 0; i < vertices.size(); i++ ){
+       98:  295:        if(vertices[i].value == dest_id){
+        -:  296:
+       14:  297:            if(vertices[i].distance == -1){ // if there is no path
+    #####:  298:                os << "<no path>\n";
+    #####:  299:                return;
+        -:  300:            }
+        -:  301:        }
+        -:  302:    }
+        -:  303:
+       43:  304:    while(prev != noprev){
+       43:  305:        prev = get_previous(temp);
+       43:  306:        if(prev == noprev){
+       14:  307:            break;
+        -:  308:        }
+       29:  309:        previousQ.push_front(prev);
+       29:  310:        temp = prev;
+        -:  311:    }
+        -:  312:
+        -:  313:
+       43:  314:    while(! previousQ.empty()){
+        -:  315:        
+       29:  316:        os << previousQ.front() << " --> ";
+       29:  317:        previousQ.pop_front();
+        -:  318:        
+        -:  319:    }
+       14:  320:    double tempDistance = distance(dest_id);
+       14:  321:    os << dest_id << " distance: " <<  tempDistance << std::endl;
+        -:  322: }
+        -:  323:
+        -:  324://helper function for print_shortest_path
+       43:  325: size_t Graph::get_previous(size_t dest_id) const{
+       43:  326:     size_t index = 0;
+      344:  327:     for(size_t i = 0; i < vertices.size(); i++ ){
+      301:  328:        if(vertices[i].value == dest_id){
+        -:  329:
+       43:  330:            index = i;
+        -:  331:        }
+        -:  332:    }
+       43:  333:    return vertices[index].prev;
+        -:  334: }
+        -:  335:
+        -:  336://get shortest distance for inputed id from the source_id in the alg
+       14:  337: double Graph::distance(size_t id) const{
+       14:  338:      size_t index = 0;
+        -:  339:
+       14:  340:    if(!contains_vertex(id)){ // if vertex does not exist
+    #####:  341:        return std::numeric_limits<size_t>::max();
+        -:  342:    }
+      112:  343:     for(size_t i = 0; i < vertices.size(); i++ ){
+       98:  344:        if(vertices[i].value == id){
+        -:  345:
+       14:  346:            index = i;
+       14:  347:            if(vertices[i].distance == -1){ // if there is no path
+    #####:  348:                return std::numeric_limits<size_t>::max();
+        -:  349:            }
+        -:  350:        }
+        -:  351:    }
+       14:  352:    return vertices[index].distance;
+        -:  353: }
+        -:  354:
+        -:  355:/*helper function to get the index of 
+        -:  356:minimum distance of the values left in the queue
+        -:  357:*/
+       14:  358:size_t Graph::min_distance( std::list<size_t> q){
+        -:  359:
+       14:  360:    size_t min = std::numeric_limits<size_t>::max();
+       14:  361:    size_t minIndex = -1;
+       14:  362:    std::list<size_t> temp = q;
+        -:  363:
+       70:  364:    while(!temp.empty()) {
+      448:  365:        for(size_t i = 0; i < vertex_count(); i++){
+      392:  366:            if(temp.front() == vertices[i].value){
+       56:  367:                if(vertices[i].distance  < min){
+       22:  368:                    min = vertices[i].distance;
+       22:  369:                    minIndex = i;
+        -:  370:                }
+        -:  371:            }
+        -:  372:
+        -:  373:        }
+       56:  374:        temp.pop_front();
+        -:  375:    }
+        -:  376:    
+       28:  377:    return minIndex;
+        -:  378:}
+        -:  379:
+        -:  380:#endif  // GRAPH_H
