@@ -1,5 +1,5 @@
 - 👋 Hi, I’m @jade-davis
-- 🌱 I’m currently learning operation systems and hands on video game development.
+- 🌱 I am a Computing major @ TAMU and ready to learn!
 - 📫 How to reach me: jadealexie12@gmail.com
 - Coding projects are under repositories!
 <!---
