@@ -1,9 +1,10 @@
 - 👋 Hi, I’m @jade-davis
-- 🌱 I am a Computing major @ TAMU and ready to learn!
+- 🌱 I am a Computing major @ TAMU!
 - 📫 How to reach me: jadealexie12@gmail.com
 - Coding projects are under repositories!
 - Main projects:
--     - Porfolio Website (React, JS, CSS) go to: jade-davis.netlify.app
+-     - Porfolio Website (React, JS, CSS) go to:
+-     jade-davis.netlify.app
 -     - Custom Shell
 -     - Tormenta Manor
 <!---
