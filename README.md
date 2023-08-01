@@ -3,7 +3,7 @@
 - 📫 How to reach me: jadealexie12@gmail.com
 - Coding projects are under repositories!
 - Main projects:
--     - Porfolio Website (React, JS, CSS)
+-     - Porfolio Website (React, JS, CSS) go to: jade-davis.netlify.app
 -     - Custom Shell
 -     - Tormenta Manor
 <!---
