@@ -1,7 +1,7 @@
 - 👋 Hi, I’m @jade-davis
 - 🌱 I am a Computing major @ TAMU!
 - 📫 How to reach me: jadealexie12@gmail.com
-- Coding projects are under repositories!
+- Coding projects are under pinned!
   
 - **Main projects:**
   - Metamorphosis: coming VERY soon!
