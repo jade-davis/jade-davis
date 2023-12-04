@@ -4,9 +4,9 @@
 - Coding projects are under repositories!
   
 - **Main projects:**
-  - Tormenta Manor:  https://nandinij14.itch.io/tormenta-manor
   - Metamorphosis: coming VERY soon!
   - Lick Honest Ice Creams POS System: coming VERY soon!
+  - Tormenta Manor:  https://nandinij14.itch.io/tormenta-manor
   - Porfolio Website (HTML, JS, CSS) go to: http://people.tamu.edu/~jadealexie12/
   - Custom Shell
 <!---
