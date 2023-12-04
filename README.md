@@ -3,8 +3,8 @@
 - 📫 How to reach me: jadealexie12@gmail.com
 - Coding projects are under repositories!
 - Main projects:
--     - Tormenta Manor
--     - Metamorphosis
+-     - Tormenta Manor:  https://nandinij14.itch.io/tormenta-manor
+-     - Metamorphosis: coming VERY soon!
 -     - Lick Honest Ice Creams POS System
 -     - Porfolio Website (HTML, JS, CSS) go to: http://people.tamu.edu/~jadealexie12/
 -     - Custom Shell
