@@ -3,10 +3,11 @@
 - 📫 How to reach me: jadealexie12@gmail.com
 - Coding projects are under repositories!
 - Main projects:
--     - Porfolio Website (React, JS, CSS) go to:
--     jade-davis.netlify.app
--     - Custom Shell
 -     - Tormenta Manor
+-     - Metamorphosis
+-     - Lick Honest Ice Creams POS System
+-     - Porfolio Website (HTML, JS, CSS) go to: http://people.tamu.edu/~jadealexie12/
+-     - Custom Shell
 <!---
 jade-davis/jade-davis is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
